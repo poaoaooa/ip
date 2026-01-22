@@ -25,6 +25,9 @@ public class Lonely {
             System.out.println(barrier);
             lst.display();
             System.out.println(barrier);
+        } else if(str.startsWith("delete")) {
+            int index = Integer.parseInt(str.replaceAll("\\D+", ""));
+            outpt(lst.remove(index));
         } else if(str.startsWith("todo")) {
             try {
                 String temp = str.replaceFirst("todo ", "");
