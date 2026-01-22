@@ -19,6 +19,12 @@ public class Lonely {
             System.out.println(barrier);
             lst.display();
             System.out.println(barrier);
+        } else if (str.startsWith("mark")) {
+            int index = Integer.parseInt(str.replaceAll("\\D+", ""));
+            outpt(lst.mark(index));
+        } else if (str.startsWith("unmark")) {
+            int index = Integer.parseInt(str.replaceAll("\\D+", ""));
+            outpt(lst.unmark(index));
         } else {
             lst.add(str);
             echo("added: " + str);
@@ -26,20 +32,20 @@ public class Lonely {
     }
 
     private static void greet(){
-        System.out.println(barrier);
-        System.out.println("Hello! I'm Lonely \nWhat can I do for you?");
-        System.out.println(barrier);
+        outpt("Hello! I'm Lonely \nWhat can I do for you?");
     }
 
     private static void echo(String inpt) {
-        System.out.println(barrier);
-        System.out.println(inpt);
-        System.out.println(barrier);
+        outpt(inpt);
     }
 
     private static void goodbye(){
+        outpt("Bye. Hope to see you again soon!");
+    }
+
+    private static void outpt(String msg){
         System.out.println(barrier);
-        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println(msg);
         System.out.println(barrier);
     }
 }
