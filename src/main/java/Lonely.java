@@ -81,10 +81,6 @@ public class Lonely {
         outpt("Hello! I'm Lonely\nWhat can I do for you?");
     }
 
-    private static void echo(String inpt) {
-        outpt(inpt);
-    }
-
     private static void goodbye(){
         outpt("Bye. Hope to see you again soon!");
     }
