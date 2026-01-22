@@ -19,6 +19,19 @@ public class Lonely {
             System.out.println(barrier);
             lst.display();
             System.out.println(barrier);
+        } else if(str.startsWith("todo")) {
+            String msg = lst.add(new ToDo(str.replaceFirst("todo ", "")));
+            outpt(msg);
+        } else if(str.startsWith("deadline")) {
+            String[] temp = str.split("/by ");
+            String msg = lst.add(new Deadline(temp[0], temp[1]));
+            outpt(msg);
+        } else if (str.startsWith("event")) {
+            String[] temp = str.split("/");
+            String msg = lst.add(new Event(temp[0],
+                    temp[1].replaceFirst("from ", ""),
+                    temp[2].replaceFirst("to ","")));
+            outpt(msg);
         } else if (str.startsWith("mark")) {
             int index = Integer.parseInt(str.replaceAll("\\D+", ""));
             outpt(lst.mark(index));
@@ -26,7 +39,7 @@ public class Lonely {
             int index = Integer.parseInt(str.replaceAll("\\D+", ""));
             outpt(lst.unmark(index));
         } else {
-            lst.add(str);
+            lst.add(new Task(str));
             echo("added: " + str);
         }
     }

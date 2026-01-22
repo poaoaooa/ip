@@ -11,7 +11,8 @@ public class Task {
         return (isDone ? "X" : " "); // mark done task with X
     }
 
-    public String getStatusMessage() {
+    @Override
+    public String toString() {
         return "["+getStatusIcon()+"] "+ this.description;
     }
 

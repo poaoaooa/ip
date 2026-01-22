@@ -8,17 +8,24 @@ public class StoreList {
 
     public String unmark(int index) {
         this.lst[index].unmark();
-        return this.lst[index].getStatusMessage();
+        String str = this.lst[index].toString();
+        return "OK, I've marked this task as not done yet:\n" +
+                "  " + str;
     }
 
     public String mark(int index) {
         this.lst[index].mark();
-        return this.lst[index].getStatusMessage();
+        String str = this.lst[index].toString();
+        return "Nice! I've marked this task as done:\n" +
+                "  " + str;
     }
 
-    public void add(String str) {
-        this.lst[index] = new Task(str);
+    public String add(Task task) {
+        this.lst[index] = task;
         this.index++;
+        return "Got it. I've added this task:\n" +
+                "  " + task.toString() + "\n" +
+                "Now you have " + (this.index - 1) + " tasks in the list.";
     }
 
     public void display() {
@@ -27,7 +34,7 @@ public class StoreList {
             if (this.lst[i] == null) {
                 break;
             }
-            System.out.println(i+"."+lst[i].getStatusMessage());
+            System.out.println(i+"."+lst[i].toString());
         }
     }
 
