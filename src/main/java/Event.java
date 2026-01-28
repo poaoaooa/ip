@@ -1,16 +1,21 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Event extends Task{
-    protected String from;
-    protected String to;
+    protected LocalDate from;
+    protected LocalDate to;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM d yyyy");
 
     public Event(String description, String from, String to) {
         super(description);
-        this.from = from;
-        this.to = to;
+        this.from = LocalDate.parse(from);
+        this.to = LocalDate.parse(to);
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
+        return "[D]" + super.toString() + " (from: " +
+                this.from.format(FORMATTER) + " to: " + this.to.format(FORMATTER) + ")";
     }
 
     public String saveString() {
@@ -19,7 +24,8 @@ public class Event extends Task{
             doner = "[X]";
         }
         return doner + "event " + super.description +
-                " /from "+this.from+ " /to "+this.to;
+                " /from "+this.from.format(FORMATTER) + " /to "
+                + this.to.format(FORMATTER);
     }
 
 }
