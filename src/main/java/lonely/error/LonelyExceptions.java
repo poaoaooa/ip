@@ -1,3 +1,5 @@
+package lonely.error;
+
 public class LonelyExceptions extends RuntimeException {
     public LonelyExceptions() {
         super("OH NOOO!!");

@@ -1,3 +1,5 @@
+package lonely.command;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,7 +18,7 @@ public class Storage {
 
     public void save() {
         List<String> lines = this.lst.getList().stream().map(Task::saveString).toList();
-        Path filePath = Paths.get("Lonely.txt");
+        Path filePath = Paths.get("Lonely.Lonely.txt");
         try {
             Files.write(filePath, lines);
         } catch (IOException e) {
@@ -27,7 +29,7 @@ public class Storage {
 
 
     public void recover() {
-        File file = new File("Lonely.txt");
+        File file = new File("Lonely.Lonely.txt");
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();

@@ -1,3 +1,5 @@
+package lonely.error;
+
 public class LonelyDontunderstandException  extends LonelyExceptions {
     public LonelyDontunderstandException() {
         super();

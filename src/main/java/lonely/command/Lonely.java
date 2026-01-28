@@ -1,3 +1,6 @@
+package lonely.command;
+
+import lonely.ui.*;
 import java.util.Scanner;
 
 public class Lonely {

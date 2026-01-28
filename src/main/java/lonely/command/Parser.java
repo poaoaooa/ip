@@ -1,3 +1,7 @@
+package lonely.command;
+
+import lonely.ui.UI;
+import lonely.error.*;
 import java.time.format.DateTimeParseException;
 import java.util.regex.PatternSyntaxException;
 

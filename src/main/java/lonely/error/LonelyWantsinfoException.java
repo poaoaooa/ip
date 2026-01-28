@@ -1,3 +1,5 @@
+package lonely.error;
+
 public class LonelyWantsinfoException extends LonelyExceptions {
     private String type;
     public LonelyWantsinfoException(String msg) {

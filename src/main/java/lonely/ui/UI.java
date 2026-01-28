@@ -1,3 +1,6 @@
+package lonely.ui;
+import lonely.command.TaskList;
+
 public class UI {
 
     private static final String barrier = "____________________________________________________________";
