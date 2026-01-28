@@ -24,6 +24,9 @@ public class Parser {
         } else if(str.startsWith("delete")) {
             int index = Integer.parseInt(str.replaceAll("\\D+", ""));
             printer = lst.remove(index);
+        } else if (str.startsWith("find ")) {
+            str = str.replaceFirst("find ", "");
+            UI.displayList(lst.find(str));
         } else if(str.startsWith("todo")) {
             try {
                 String temp = str.replaceFirst("todo ", "");
@@ -74,7 +77,6 @@ public class Parser {
             int index = Integer.parseInt(str.replaceAll("\\D+", ""));
             printer = lst.unmark(index);
         } else {
-            System.out.println(str);
             UI.handle(new LonelyDontunderstandException());
         }
         if (!display || printer.isEmpty()) {

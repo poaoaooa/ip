@@ -1,12 +1,15 @@
 package lonely.command;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class TaskList {
     private final ArrayList<Task> lst;
     TaskList() {
         this.lst = new ArrayList<>();
     }
+
+    TaskList(ArrayList<Task> tasks) {this.lst = tasks;}
 
 
     /**
@@ -73,11 +76,18 @@ public class TaskList {
      * also numbers the elements
      *
      */
-    protected void display() {
+    public void display() {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < this.lst.size(); i++) {
             System.out.println((i+1)+"."+ this.lst.get(i).toString());
         }
+    }
+
+    protected TaskList find(String str) {
+        return new TaskList(this.lst.stream()
+                .filter(task -> task.toString().
+                        toLowerCase().contains(str.toLowerCase()))
+                .collect(Collectors.toCollection(ArrayList::new)));
     }
 
     protected ArrayList<Task> getList() {return this.lst;}
