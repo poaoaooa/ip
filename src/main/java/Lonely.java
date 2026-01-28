@@ -2,95 +2,29 @@ import java.util.Scanner;
 import java.util.regex.PatternSyntaxException;
 
 public class Lonely {
-    public static final String barrier = "____________________________________________________________";
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        StoreList lst = new StoreList();
+        Storage lst = new Storage();
+        lst.recover();
         greet();
         String str;
         do {
             str = scanner.nextLine();
             if (str.equals("bye")) {break;}
-            logic(str, lst);
+            Logic.logic(str, lst,true);
         } while (true);
+        lst.save();
         goodbye();
     }
 
-    private static void handle(Exception exp) {
-        outpt(exp.toString());
-    }
-
-    private static void logic(String str, StoreList lst) {
-        if (str.equals("list")) {
-            System.out.println(barrier);
-            lst.display();
-            System.out.println(barrier);
-        } else if(str.startsWith("delete")) {
-            int index = Integer.parseInt(str.replaceAll("\\D+", ""));
-            outpt(lst.remove(index));
-        } else if(str.startsWith("todo")) {
-            try {
-                String temp = str.replaceFirst("todo ", "");
-                if (temp.equals("")|| str.length() < 5) {
-                    handle(new LonelyWantsinfoException("todo"));
-                    return;
-                }
-                String msg = lst.add(new ToDo(temp));
-                outpt(msg);
-            }  catch (PatternSyntaxException e) {
-                    handle(new LonelyDontunderstandException());
-            }  catch (ArrayIndexOutOfBoundsException e) {
-                    handle(new LonelyWantsinfoException("todo"));
-            }
-        } else if(str.startsWith("deadline")) {
-            try {
-                String[] temp = str.split("/by ");
-                String msg = lst.add(new Deadline(temp[0], temp[1]));
-                outpt(msg);
-            }  catch (PatternSyntaxException e) {
-                    handle(new LonelyDontunderstandException());
-            }  catch (ArrayIndexOutOfBoundsException e) {
-                    handle(new LonelyWantsinfoException("deadline"));
-            }
-        } else if (str.startsWith("event")) {
-            try {
-                String[] temp = str.split("/");
-                String msg = lst.add(new Event(temp[0],
-                        temp[1].replaceFirst("from ", ""),
-                        temp[2].replaceFirst("to ","")));
-                if (temp[1].equals("from")|| temp[2].equals("to") ||
-                        temp[1].equals(" ") || temp[2].equals(" ")) {
-                    handle(new LonelyWantsinfoException("todo"));
-                    return;
-                }
-                outpt(msg);
-            }  catch (PatternSyntaxException e) {
-                    handle(new LonelyDontunderstandException());
-            }  catch (ArrayIndexOutOfBoundsException e) {
-                    handle(new LonelyWantsinfoException("event"));
-            }
-        } else if (str.startsWith("mark")) {
-            int index = Integer.parseInt(str.replaceAll("\\D+", ""));
-            outpt(lst.mark(index));
-        } else if (str.startsWith("unmark")) {
-            int index = Integer.parseInt(str.replaceAll("\\D+", ""));
-            outpt(lst.unmark(index));
-        } else {
-            handle(new LonelyDontunderstandException());
-        }
-    }
-
     private static void greet(){
-        outpt("Hello! I'm Lonely\nWhat can I do for you?");
+        Logic.outpt("Hello! I'm Lonely\nWhat can I do for you?");
     }
 
     private static void goodbye(){
-        outpt("Bye. Hope to see you again soon!");
+        Logic.outpt("Bye. Hope to see you again soon!");
     }
 
-    private static void outpt(String msg){
-        System.out.println(barrier);
-        System.out.println(msg);
-        System.out.println(barrier);
-    }
+
 }
