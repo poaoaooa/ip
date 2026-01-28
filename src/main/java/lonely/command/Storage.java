@@ -20,7 +20,7 @@ public class Storage {
      * Saves TaskList object in the form of a txt file to be used later
      *
      */
-    public void save() {
+    protected void save() {
         List<String> lines = this.lst.getList().stream().map(Task::saveString).toList();
         Path filePath = Paths.get("Lonely.txt");
         try {
@@ -36,7 +36,7 @@ public class Storage {
      * i.e if there was a previous conversatino with Lonely
      *
      */
-    public void recover() {
+     protected void recover() {
         File file = new File("Lonely.txt");
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
@@ -50,10 +50,10 @@ public class Storage {
 
     private void retrievelogic(String str) {
         if (str.startsWith("[ ]")) {
-            Parser.logic(str.substring(3),this.lst,false);
+            Parser.logic(str.substring(3), this.lst, false);
         } else if (str.startsWith("[X]")){
-            Parser.logic(str.substring(3),this.lst, false);
-            Parser.logic("mark "+this.lst.getList().size(),this.lst, false);
+            Parser.logic(str.substring(3), this.lst, false);
+            Parser.logic("mark "+this.lst.getList().size(), this.lst, false);
         }
     }
 }

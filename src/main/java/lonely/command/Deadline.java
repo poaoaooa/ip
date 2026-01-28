@@ -7,7 +7,7 @@ public class Deadline extends Task {
     protected LocalDate by;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM d yyyy");
 
-    public Deadline(String description, String by) {
+    Deadline(String description, String by) {
         super(description);
         this.by = LocalDate.parse(by);
     }
@@ -31,7 +31,7 @@ public class Deadline extends Task {
      * @return Custom string representation of object
      */
     @Override
-    public String saveString() {
+    protected String saveString() {
         String doner = "[ ]";
         if (super.isDone) {
             doner = "[X]";

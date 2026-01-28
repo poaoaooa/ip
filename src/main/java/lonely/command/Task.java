@@ -4,7 +4,7 @@ public abstract class Task {
     protected String description;
     protected boolean isDone;
 
-    public Task(String description) {
+    Task(String description) {
         this.description = description;
         this.isDone = false;
     }
@@ -18,11 +18,11 @@ public abstract class Task {
         return "["+getStatusIcon()+"] "+ this.description;
     }
 
-    public void unmark() {
+    protected void unmark() {
         this.isDone = false;
     }
 
-    public void mark() {
+    protected void mark() {
         this.isDone = true;
     }
 
@@ -30,5 +30,5 @@ public abstract class Task {
      * Abstract method, ensures every Task can be saved in text files
      *
      */
-    public abstract String saveString();
+    protected abstract String saveString();
 }

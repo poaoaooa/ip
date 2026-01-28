@@ -24,7 +24,7 @@ public class ToDo extends Task{
      * @return Custom string representation of object
      */
     @Override
-    public String saveString() {
+    protected String saveString() {
         String doner = "[ ]";
         if (super.isDone) {
             doner = "[X]";

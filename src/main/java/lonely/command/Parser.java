@@ -17,7 +17,7 @@ public class Parser {
      * @throws LonelyDontunderstandException() if formatting does not fit
      * @throws LonelyWantsinfoException() if formatting fits, but some details are empty
      */
-    public static void logic(String str, TaskList lst, boolean display) {
+    protected static void logic(String str, TaskList lst, boolean display) {
         String printer = "";
         if (str.equals("list")) {
             UI.displayList(lst);
