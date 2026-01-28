@@ -1,3 +1,4 @@
+import java.time.format.DateTimeParseException;
 import java.util.regex.PatternSyntaxException;
 
 public class Logic {
@@ -42,9 +43,9 @@ public class Logic {
                 String[] temp = str.split(" /by ");
                 String msg = lst.add(new Deadline(temp[0], temp[1]));
                 printer = msg;
-            }  catch (PatternSyntaxException e) {
+            } catch (DateTimeParseException | PatternSyntaxException e) {
                 handle(new LonelyDontunderstandException());
-            }  catch (ArrayIndexOutOfBoundsException e) {
+            } catch (ArrayIndexOutOfBoundsException e) {
                 handle(new LonelyWantsinfoException("deadline"));
             }
         } else if (str.startsWith("event")) {
@@ -60,7 +61,7 @@ public class Logic {
                     return;
                 }
                 printer = msg;
-            }  catch (PatternSyntaxException e) {
+            }  catch (DateTimeParseException | PatternSyntaxException e) {
                 handle(new LonelyDontunderstandException());
             }  catch (ArrayIndexOutOfBoundsException e) {
                 handle(new LonelyWantsinfoException("event"));
