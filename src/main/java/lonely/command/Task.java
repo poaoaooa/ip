@@ -26,5 +26,9 @@ public abstract class Task {
         this.isDone = true;
     }
 
+    /**
+     * Abstract method, ensures every Task can be saved in text files
+     *
+     */
     public abstract String saveString();
 }

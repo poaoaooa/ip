@@ -6,7 +6,17 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.PatternSyntaxException;
 
 public class Parser {
-
+    /**
+     * Parses through the String, and checks if it contains certain keywords,
+     * if it does performs corresponding action.
+     *
+     * @param str String that is inputted, to be saved in list
+     * @param lst Object of the Tasklist, that will be used by Lonely throughout
+     * @param display boolean variable, to denote whether logic prints anything
+     * @return nothing
+     * @throws LonelyDontunderstandException() if formatting does not fit
+     * @throws LonelyWantsinfoException() if formatting fits, but some details are empty
+     */
     public static void logic(String str, TaskList lst, boolean display) {
         String printer = "";
         if (str.equals("list")) {

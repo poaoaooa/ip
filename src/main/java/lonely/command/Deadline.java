@@ -12,11 +12,25 @@ public class Deadline extends Task {
         this.by = LocalDate.parse(by);
     }
 
+    /**
+     * Returns custom string notation of Object.
+     * Overrides Task toString method, which has details of
+     * task description and whether it is unmarked or not
+     *
+     * @return Custom string representation of object
+     */
     @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: " + this.by.format(FORMATTER) + ")";
     }
 
+    /**
+     * Returns custom string notation of Object to be
+     * saved in txt file
+     *
+     * @return Custom string representation of object
+     */
+    @Override
     public String saveString() {
         String doner = "[ ]";
         if (super.isDone) {

@@ -4,7 +4,11 @@ import lonely.ui.*;
 import java.util.Scanner;
 
 public class Lonely {
-
+    /**
+     * Main method, loops through scanner inputs and passes
+     * it to its logic, till it reached a "bye".
+     *
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         TaskList lst = new TaskList();

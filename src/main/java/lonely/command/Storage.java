@@ -16,9 +16,13 @@ public class Storage {
         this.lst = lst;
     }
 
+    /**
+     * Saves TaskList object in the form of a txt file to be used later
+     *
+     */
     public void save() {
         List<String> lines = this.lst.getList().stream().map(Task::saveString).toList();
-        Path filePath = Paths.get("Lonely.Lonely.txt");
+        Path filePath = Paths.get("Lonely.txt");
         try {
             Files.write(filePath, lines);
         } catch (IOException e) {
@@ -27,9 +31,13 @@ public class Storage {
 
     }
 
-
+    /**
+     * Retrives TaskList object from txt file, if it exsits,
+     * i.e if there was a previous conversatino with Lonely
+     *
+     */
     public void recover() {
-        File file = new File("Lonely.Lonely.txt");
+        File file = new File("Lonely.txt");
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
