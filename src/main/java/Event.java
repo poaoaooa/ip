@@ -13,4 +13,13 @@ public class Event extends Task{
         return "[D]" + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
     }
 
+    public String saveString() {
+        String doner = "[ ]";
+        if (super.isDone) {
+            doner = "[X]";
+        }
+        return doner + "event " + super.description +
+                " /from "+this.from+ " /to "+this.to;
+    }
+
 }
