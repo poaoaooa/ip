@@ -79,11 +79,12 @@ public class TaskList {
      * also numbers the elements
      *
      */
-    public void display() {
-        System.out.println("Here are the tasks in your list:");
+    public String display() {
+        StringBuilder lstString = new StringBuilder("Here are the tasks in your list:\n");
         for (int i = 0; i < this.lst.size(); i++) {
-            System.out.println((i + 1) + "." + this.lst.get(i).toString());
+            lstString.append((i + 1) + "." + this.lst.get(i).toString() + "\n");
         }
+        return lstString.toString();
     }
 
     protected TaskList find(String str) {
