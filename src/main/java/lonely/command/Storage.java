@@ -49,10 +49,10 @@ public class Storage {
     }
     private void retrievelogic(String str) {
         if (str.startsWith("[ ]")) {
-            Parser.logic(str.substring(3), this.lst, false);
+            Parser.logic(str.substring(3), this.lst);
         } else if (str.startsWith("[X]")) {
-            Parser.logic(str.substring(3), this.lst, false);
-            Parser.logic("mark " + this.lst.getList().size(), this.lst, false);
+            Parser.logic(str.substring(3), this.lst);
+            Parser.logic("mark " + this.lst.getList().size(), this.lst);
         }
     }
 }

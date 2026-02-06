@@ -1,5 +1,8 @@
 package lonely.command;
 
+/**
+ * Abstract class of Task
+ */
 public abstract class Task {
     protected String description;
     protected boolean isDone;

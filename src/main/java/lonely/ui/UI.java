@@ -1,8 +1,11 @@
 package lonely.ui;
 import lonely.command.TaskList;
 
+/**
+ * Class that handles UI
+ */
 public class UI {
-
+    /*
     private static final String barrier = "____________________________________________________________";
 
     public static void greet() {
@@ -12,20 +15,19 @@ public class UI {
     public static void goodbye() {
         outpt("Bye. Hope to see you again soon!");
     }
-
-    public static void handle(Exception exp) {
-        outpt(exp.toString());
+    */
+    public static String handle(Exception exp) {
+        return exp.toString();
     }
 
-    public static void displayList(TaskList lst) {
-        System.out.println(barrier);
-        lst.display();
-        System.out.println(barrier);
+    public static String displayList(TaskList lst) {
+        return lst.display();
     }
-
+    /*
     public static void outpt(String msg) {
         System.out.println(barrier);
         System.out.println(msg);
         System.out.println(barrier);
-    }
+    }*/
 }
+

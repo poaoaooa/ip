@@ -1,5 +1,8 @@
 package lonely.command;
 
+/**
+ * Class of Type task that represents Todo task
+ */
 public class ToDo extends Task {
     ToDo(String description) {
         super(description);
