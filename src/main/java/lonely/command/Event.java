@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Event extends Task {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
+    private static final DateTimeFormatter REFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     protected LocalDate from;
     protected LocalDate to;
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM d yyyy");
-
     Event(String description, String from, String to) {
         super(description);
         this.from = LocalDate.parse(from);
@@ -23,8 +23,8 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (from: " +
-                this.from.format(FORMATTER) + " to: " + this.to.format(FORMATTER) + ")";
+        return "[D]" + super.toString() + " (from: "
+                + this.from.format(FORMATTER) + " to: " + this.to.format(FORMATTER) + ")";
     }
 
     /**
@@ -39,9 +39,9 @@ public class Event extends Task {
         if (super.isDone) {
             doner = "[X]";
         }
-        return doner + "event " + super.description +
-                " /from "+this.from.format(FORMATTER) + " /to "
-                + this.to.format(FORMATTER);
+        return doner + "event " + super.description
+                + " /from " + this.from.format(FORMATTER) + " /to "
+                + this.to.format(REFORMATTER);
     }
 
 }
