@@ -4,8 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Deadline extends Task {
+    private static final DateTimeFormatter REFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
     protected LocalDate by;
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM d yyyy");
 
     Deadline(String description, String by) {
         super(description);
@@ -36,7 +37,7 @@ public class Deadline extends Task {
         if (super.isDone) {
             doner = "[X]";
         }
-        return doner + "deadline " + super.description +
-                " /by " + this.by.format(FORMATTER);
+        return doner + "deadline " + super.description
+                + " /by " + this.by.format(REFORMATTER);
     }
 }

@@ -1,7 +1,8 @@
 package lonely.command;
-
-import lonely.ui.*;
 import java.util.Scanner;
+
+import lonely.ui.UI;
+
 
 public class Lonely {
     /**
@@ -18,8 +19,10 @@ public class Lonely {
         String str;
         do {
             str = scanner.nextLine();
-            if (str.equals("bye")) {break;}
-            Parser.logic(str, lst,true);
+            if (str.equals("bye")) {
+                break;
+            }
+            Parser.logic(str, lst, true);
         } while (true);
         store.save();
         UI.goodbye();

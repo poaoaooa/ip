@@ -31,12 +31,12 @@ public class Storage {
 
     }
 
-    /**
-     * Retrives TaskList object from txt file, if it exsits,
-     * i.e if there was a previous conversatino with Lonely
-     *
-     */
-     protected void recover() {
+    /*
+    * Retrives TaskList object from txt file, if it exsits,
+    * i.e if there was a previous conversatino with Lonely
+    *
+    */
+    protected void recover() {
         File file = new File("Lonely.txt");
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
@@ -47,13 +47,12 @@ public class Storage {
             // do nothing
         }
     }
-
     private void retrievelogic(String str) {
         if (str.startsWith("[ ]")) {
             Parser.logic(str.substring(3), this.lst, false);
-        } else if (str.startsWith("[X]")){
+        } else if (str.startsWith("[X]")) {
             Parser.logic(str.substring(3), this.lst, false);
-            Parser.logic("mark "+this.lst.getList().size(), this.lst, false);
+            Parser.logic("mark " + this.lst.getList().size(), this.lst, false);
         }
     }
 }
