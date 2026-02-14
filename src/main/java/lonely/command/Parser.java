@@ -21,58 +21,94 @@ public class Parser {
     protected static String logic(String str, TaskList lst) {
         String printer = "";
         if (str.startsWith("delete")) {
-            int index = Integer.parseInt(str.replaceAll("\\D+", ""));
-            printer = lst.remove(index);
+            printer = logicDelete(str, lst);
         } else if (str.startsWith("find ")) {
-            str = str.replaceFirst("find ", "");
-            printer = UI.displayList(lst.find(str));
+            printer = logicFind(str,lst);
         } else if (str.startsWith("todo")) {
-            try {
-                String temp = str.replaceFirst("todo ", "");
-                if (temp.equals("") || str.length() < 5) {
-                    printer = UI.handle(new LonelyWantsinfoException("todo"));
-                }
-                String msg = lst.add(new ToDo(temp));
-                printer = msg;
-            } catch (PatternSyntaxException e) {
-                printer = UI.handle(new LonelyDontunderstandException());
-            } catch (ArrayIndexOutOfBoundsException e) {
-                printer = UI.handle(new LonelyWantsinfoException("todo"));
-            }
+            printer = logicTodo(str, lst);
         } else if (str.startsWith("deadline")) {
-            try {
-                str = str.replaceFirst("deadline ", "");
-                String[] temp = str.split(" /by ");
-                String msg = lst.add(new Deadline(temp[0], temp[1]));
-                printer = msg;
-            } catch (DateTimeParseException | PatternSyntaxException e) {
-                printer = UI.handle(new LonelyDontunderstandException());
-            } catch (ArrayIndexOutOfBoundsException e) {
-                printer = UI.handle(new LonelyWantsinfoException("deadline"));
-            }
+            printer = logicDeadline(str, lst);
         } else if (str.startsWith("event")) {
-            try {
-                str = str.replaceFirst("event ", "");
-                String[] temp = str.split(" /");
-                String msg = lst.add(new Event(temp[0],
-                        temp[1].replaceFirst("from ", ""),
-                        temp[2].replaceFirst("to ", "")));
-                printer = msg;
-            } catch (DateTimeParseException | PatternSyntaxException e) {
-                printer = UI.handle(new LonelyDontunderstandException());
-            } catch (ArrayIndexOutOfBoundsException e) {
-                printer = UI.handle(new LonelyWantsinfoException("event"));
-            }
+            printer = logicEvent(str, lst);
         } else if (str.startsWith("mark")) {
-            int index = Integer.parseInt(str.replaceAll("\\D+", ""));
-            printer = lst.mark(index);
+            printer = logicMark(str, lst);
         } else if (str.startsWith("unmark")) {
-            int index = Integer.parseInt(str.replaceAll("\\D+", ""));
-            printer = lst.unmark(index);
+            printer = logicUnmark(str, lst);
         } else {
             printer = UI.handle(new LonelyDontunderstandException());
         }
         return printer;
     }
+
+    private static String logicUnmark(String str, TaskList lst) {
+        int index = Integer.parseInt(str.replaceAll("\\D+", ""));
+        return lst.unmark(index);
+    }
+
+    private static String logicMark(String str, TaskList lst) {
+        int index = Integer.parseInt(str.replaceAll("\\D+", ""));
+        return lst.mark(index);
+    }
+
+    private static String logicEvent(String str, TaskList lst) {
+        String printer;
+        try {
+            str = str.replaceFirst("event ", "");
+            String[] temp = str.split(" /");
+            String msg = lst.add(new Event(temp[0],
+                    temp[1].replaceFirst("from ", ""),
+                    temp[2].replaceFirst("to ", "")));
+            printer = msg;
+        } catch (DateTimeParseException | PatternSyntaxException e) {
+            printer = UI.handle(new LonelyDontunderstandException());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            printer = UI.handle(new LonelyWantsinfoException("event"));
+        }
+        return printer;
+    }
+
+    private static String logicDeadline(String str, TaskList lst) {
+        String printer;
+        try {
+            str = str.replaceFirst("deadline ", "");
+            String[] temp = str.split(" /by ");
+            String msg = lst.add(new Deadline(temp[0], temp[1]));
+            printer = msg;
+        } catch (DateTimeParseException | PatternSyntaxException e) {
+            printer = UI.handle(new LonelyDontunderstandException());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            printer = UI.handle(new LonelyWantsinfoException("deadline"));
+        }
+        return printer;
+    }
+
+    private static String logicTodo(String str, TaskList lst) {
+        String printer;
+        try {
+            String temp = str.replaceFirst("todo ", "");
+            if (temp.equals("") || str.length() < 5) {
+                printer = UI.handle(new LonelyWantsinfoException("todo"));
+            }
+            String msg = lst.add(new ToDo(temp));
+            printer = msg;
+        } catch (PatternSyntaxException e) {
+            printer = UI.handle(new LonelyDontunderstandException());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            printer = UI.handle(new LonelyWantsinfoException("todo"));
+        }
+        return printer;
+    }
+
+    private static String logicDelete(String str, TaskList lst) {
+        int index = Integer.parseInt(str.replaceAll("\\D+", ""));
+        return lst.remove(index);
+    }
+
+    private static String logicFind(String str, TaskList lst) {
+        str = str.replaceFirst("find ", "");
+        return UI.displayList(lst.find(str));
+    }
+
+
 
 }
