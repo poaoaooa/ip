@@ -45,12 +45,12 @@ public class Lonely {
         if (input.equals("list")) {
             return UI.displayList(Lonely.lst);
         }
-        String message = Parser.logic(input, Lonely.lst);
-
         if (input.equals("bye")) {
             Lonely.store.save();
             return "bye. Hope to see you again soon!";
         }
+        String message = Parser.logic(input, Lonely.lst);
+
         return message;
     }
 }

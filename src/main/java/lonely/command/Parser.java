@@ -19,6 +19,8 @@ public class Parser {
      * @throws LonelyWantsinfoException() if formatting fits, but some details are empty
      */
     protected static String logic(String str, TaskList lst) {
+        assert str != null : "str should not be null";
+        assert lst != null : "list should not be null";
         String printer = "";
         if (str.startsWith("delete")) {
             printer = logicDelete(str, lst);
@@ -42,11 +44,13 @@ public class Parser {
 
     private static String logicUnmark(String str, TaskList lst) {
         int index = Integer.parseInt(str.replaceAll("\\D+", ""));
+        assert index != 0 : "index must not be 0";
         return lst.unmark(index);
     }
 
     private static String logicMark(String str, TaskList lst) {
         int index = Integer.parseInt(str.replaceAll("\\D+", ""));
+        assert index != 0 : "index must not be 0";
         return lst.mark(index);
     }
 
@@ -55,6 +59,9 @@ public class Parser {
         try {
             str = str.replaceFirst("event ", "");
             String[] temp = str.split(" /");
+            assert !temp[0].equals("") : "string must not be empty";
+            assert !temp[1].equals("") : "string must not be empty";
+            assert !temp[2].equals("") : "string must not be empty";
             String msg = lst.add(new Event(temp[0],
                     temp[1].replaceFirst("from ", ""),
                     temp[2].replaceFirst("to ", "")));
@@ -72,6 +79,8 @@ public class Parser {
         try {
             str = str.replaceFirst("deadline ", "");
             String[] temp = str.split(" /by ");
+            assert !temp[0].equals("") : "string must not be empty";
+            assert !temp[1].equals("") : "string must not be empty";
             String msg = lst.add(new Deadline(temp[0], temp[1]));
             printer = msg;
         } catch (DateTimeParseException | PatternSyntaxException e) {
@@ -86,6 +95,7 @@ public class Parser {
         String printer;
         try {
             String temp = str.replaceFirst("todo ", "");
+            assert str.length() < 5 : "string must have a subject"
             if (temp.equals("") || str.length() < 5) {
                 printer = UI.handle(new LonelyWantsinfoException("todo"));
             }
@@ -101,11 +111,13 @@ public class Parser {
 
     private static String logicDelete(String str, TaskList lst) {
         int index = Integer.parseInt(str.replaceAll("\\D+", ""));
+        assert index != 0 : "index must not be 0";
         return lst.remove(index);
     }
 
     private static String logicFind(String str, TaskList lst) {
         str = str.replaceFirst("find ", "");
+        assert  !str.equals("") : "string must not be empty";
         return UI.displayList(lst.find(str));
     }
 
