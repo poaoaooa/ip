@@ -19,21 +19,27 @@ public class Parser {
      * @throws LonelyWantsinfoException() if formatting fits, but some details are empty
      */
     protected static String logic(String str, TaskList lst) {
+        assert str != null : "str should not be null";
+        assert lst != null : "list should not be null";
         String printer = "";
         if (str.startsWith("delete")) {
             int index = Integer.parseInt(str.replaceAll("\\D+", ""));
+            assert index != 0 : "index must not be 0";
             printer = lst.remove(index);
         } else if (str.startsWith("find ")) {
             str = str.replaceFirst("find ", "");
+            assert  !str.equals("") : "string must not be empty";
             printer = UI.displayList(lst.find(str));
         } else if (str.startsWith("todo")) {
             try {
                 String temp = str.replaceFirst("todo ", "");
-                if (temp.equals("") || str.length() < 5) {
+                assert str.length() < 5 : "string must have a subject"
+                if (str.length() < 5) {
                     printer = UI.handle(new LonelyWantsinfoException("todo"));
+                } else {
+                    String msg = lst.add(new ToDo(temp));
+                    printer = msg;
                 }
-                String msg = lst.add(new ToDo(temp));
-                printer = msg;
             } catch (PatternSyntaxException e) {
                 printer = UI.handle(new LonelyDontunderstandException());
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -43,6 +49,8 @@ public class Parser {
             try {
                 str = str.replaceFirst("deadline ", "");
                 String[] temp = str.split(" /by ");
+                assert !temp[0].equals("") : "string must not be empty";
+                assert !temp[1].equals("") : "string must not be empty";
                 String msg = lst.add(new Deadline(temp[0], temp[1]));
                 printer = msg;
             } catch (DateTimeParseException | PatternSyntaxException e) {
@@ -54,6 +62,9 @@ public class Parser {
             try {
                 str = str.replaceFirst("event ", "");
                 String[] temp = str.split(" /");
+                assert !temp[0].equals("") : "string must not be empty";
+                assert !temp[1].equals("") : "string must not be empty";
+                assert !temp[2].equals("") : "string must not be empty";
                 String msg = lst.add(new Event(temp[0],
                         temp[1].replaceFirst("from ", ""),
                         temp[2].replaceFirst("to ", "")));
@@ -65,9 +76,11 @@ public class Parser {
             }
         } else if (str.startsWith("mark")) {
             int index = Integer.parseInt(str.replaceAll("\\D+", ""));
+            assert index != 0 : "index must not be 0";
             printer = lst.mark(index);
         } else if (str.startsWith("unmark")) {
             int index = Integer.parseInt(str.replaceAll("\\D+", ""));
+            assert index != 0 : "index must not be 0";
             printer = lst.unmark(index);
         } else {
             printer = UI.handle(new LonelyDontunderstandException());
