@@ -7,6 +7,7 @@ This is Lonely, a chatbot that allows you to store, manipulate and view your tas
 ### Note:
 - you do not need to worry about saving tasks Lonely automatically saves when you enter "bye".
   - HOWEVER if you close lonely without "bye" the list will not be saved
+- press Enter to submit commands
 - when adding tasks with time(eg: deadline) use the "yyyy-MM-dd" format(eg:"1919-01-01")
 - when using list command there are symbols displayed
 ```
