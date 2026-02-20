@@ -7,41 +7,43 @@ public class DoWithinPeriod extends Task {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
     private static final DateTimeFormatter REFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     protected LocalDate between;
-    protected LocalDate and;
-    DoWithinPeriod(String description, String between, String and) {
+    // Use Chatgpt to find and a back variable name
+    protected LocalDate to;
+
+    DoWithinPeriod(String description, String between, String to) {
         super(description);
         this.between = LocalDate.parse(between);
-        this.and = LocalDate.parse(and);
+        this.to = LocalDate.parse(to);
     }
 
     /**
-     * Returns custom string notation of Object.
-     * Overrides Task toString method, which has details of
-     * task description and whether it is unmarked or not
+     * Returns a formatted string representation of this task.
      *
-     * @return Custom string representation of object
+     * @return formatted task string
      */
     @Override
     public String toString() {
         return "[W]" + super.toString() + " (between: "
-                + this.between.format(FORMATTER) + " and: " + this.and.format(FORMATTER) + ")";
+                + this.between.format(FORMATTER) + " and: " + this.to.format(FORMATTER) + ")";
     }
 
     /**
-     * Returns custom string notation of Object to be
+     * Returns custom string notation of object to be
      * saved in txt file
      *
      * @return Custom string representation of object
      */
     @Override
-    protected String saveString() {
+    public String saveString() {
         String doner = "[ ]";
         if (super.isDone) {
             doner = "[X]";
         }
+        // Chatgpt caught a bug with me using
+        // FORMATTER INSTEAD OF REFORMATTER FOR SAVING
         return doner + "dowithin " + super.description
-                + " /between " + this.between.format(FORMATTER) + " /and "
-                + this.and.format(REFORMATTER);
+                + " /between " + this.between.format(REFORMATTER) + " /and "
+                + this.to.format(REFORMATTER);
     }
 
 }

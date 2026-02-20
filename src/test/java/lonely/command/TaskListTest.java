@@ -24,14 +24,29 @@ public class TaskListTest {
 
     }
 
+    //Use Chatgpt to make a better Junit Test
     @Test
-    public void mark() {
-        Task task = new Deadline("return book", "2019-10-15");
-        TaskList taskList = new TaskList();
-        taskList.add(task);
-        assertEquals("Nice! I've marked this task as done:\n  [D][X] return book (by: Oct 15 2019)",
-                taskList.mark(1));
+    public void parseTodo_validInput() {
+        TaskList list = new TaskList();
 
+        String result = Parser.logic("todo homework", list);
+
+        assertEquals(1, list.getList().size());
+        assertTrue(result.contains("homework"));
+    }
+
+    /**
+     * Use Chatgpt to make a better Junit Test
+     */
+    @Test
+    public void addTask_success() {
+        TaskList list = new TaskList();
+        Task task = new ToDo("study");
+
+        String result = list.add(task);
+
+        assertEquals(1, list.getList().size());
+        assertTrue(result.contains("study"));
     }
 
 

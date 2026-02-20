@@ -8,35 +8,42 @@ import lonely.ui.UI;
 
 
 public class Parser {
+    // Used Chatgpt to tell me to get rid of magic strings
+    public static final String CMD_DELETE = "delete ";
+    public static final String CMD_FIND = "find ";
+    public static final String CMD_TODO = "todo ";
+    public static final String CMD_DEADLINE = "deadline ";
+    public static final String CMD_EVENT = "event ";
+    public static final String CMD_DOWITHIN = "dowithin ";
+    public static final String CMD_MARK = "mark";
+    public static final String CMD_UNMARK = "unmark";
+
     /**
-     * Parses through the String, and checks if it contains certain keywords,
-     * if it does performs corresponding action.
+     * Parses user input and executes the corresponding command.
      *
-     * @param str String that is inputted, to be saved in list
-     * @param lst Object of the Tasklist, that will be used by Lonely throughout
-     * @return nothing
-     * @throws LonelyDontunderstandException() if formatting does not match)
-     * @throws LonelyWantsinfoException() if formatting fits, but some details are empty
+     * @param str user input string
+     * @param lst tasklist to operate on
+     * @return Response message to be shown to the user.
      */
     protected static String logic(String str, TaskList lst) {
         assert str != null : "str should not be null";
         assert lst != null : "list should not be null";
         String printer = "";
-        if (str.startsWith("delete")) {
+        if (str.startsWith(CMD_DELETE)) {
             printer = logicDelete(str, lst);
-        } else if (str.startsWith("find ")) {
-            printer = logicFind(str,lst);
-        } else if (str.startsWith("todo")) {
+        } else if (str.startsWith(CMD_FIND)) {
+            printer = logicFind(str, lst);
+        } else if (str.startsWith(CMD_TODO)) {
             printer = logicTodo(str, lst);
-        } else if (str.startsWith("deadline")) {
+        } else if (str.startsWith(CMD_DEADLINE)) {
             printer = logicDeadline(str, lst);
-        } else if (str.startsWith("event")) {
+        } else if (str.startsWith(CMD_EVENT)) {
             printer = logicEvent(str, lst);
-        } else if (str.startsWith("dowithin")) {
+        } else if (str.startsWith(CMD_DOWITHIN)) {
             printer = logicDowithin(str, lst);
-        } else if (str.startsWith("mark")) {
+        } else if (str.startsWith(CMD_MARK)) {
             printer = logicMark(str, lst);
-        } else if (str.startsWith("unmark")) {
+        } else if (str.startsWith(CMD_UNMARK)) {
             printer = logicUnmark(str, lst);
         } else {
             printer = UI.handle(new LonelyDontunderstandException());
@@ -44,26 +51,55 @@ public class Parser {
         return printer;
     }
 
+    // used chatgpt to tell me to avoid repeating
+    // extract index logic in methods
+    private static int extractIndex(String str) {
+        return Integer.parseInt(str.replaceAll("\\D+", ""));
+    }
+
     private static String logicUnmark(String str, TaskList lst) {
-        int index = Integer.parseInt(str.replaceAll("\\D+", ""));
-        assert index != 0 : "index must not be 0";
+        int index = extractIndex(str);
+        if (index <= 0 || index > lst.getList().size()) {
+            return "Invalid task number.";
+        }
         return lst.unmark(index);
     }
 
     private static String logicMark(String str, TaskList lst) {
-        int index = Integer.parseInt(str.replaceAll("\\D+", ""));
-        assert index != 0 : "index must not be 0";
+        int index = extractIndex(str);
+        if (index <= 0 || index > lst.getList().size()) {
+            return "Invalid task number.";
+        }
         return lst.mark(index);
+    }
+
+    private static String logicDelete(String str, TaskList lst) {
+        int index = extractIndex(str);
+        if (index <= 0 || index > lst.getList().size()) {
+            return "Invalid task number.";
+        }
+        return lst.remove(index);
+    }
+
+    private static String logicFind(String str, TaskList lst) {
+        str = str.replaceFirst(CMD_FIND, "");
+        if (str.trim().isEmpty()) {
+            return "Please provide a keyword to search.";
+        }
+        return UI.displayList(lst.find(str));
     }
 
     private static String logicEvent(String str, TaskList lst) {
         String printer;
         try {
-            str = str.replaceFirst("event ", "");
+            str = str.replaceFirst(CMD_EVENT, "");
             String[] temp = str.split(" /");
-            assert !temp[0].equals("") : "string must not be empty";
-            assert !temp[1].equals("") : "string must not be empty";
-            assert !temp[2].equals("") : "string must not be empty";
+            if (temp.length < 3 ||
+                    temp[0].isEmpty() ||
+                    temp[1].isEmpty() ||
+                    temp[2].isEmpty()) {
+                return UI.handle(new LonelyWantsinfoException("event"));
+            }
             String msg = lst.add(new Event(temp[0],
                     temp[1].replaceFirst("from ", ""),
                     temp[2].replaceFirst("to ", "")));
@@ -79,11 +115,14 @@ public class Parser {
     private static String logicDowithin(String str, TaskList lst) {
         String printer;
         try {
-            str = str.replaceFirst("dowithin ", "");
+            str = str.replaceFirst(CMD_DOWITHIN, "");
             String[] temp = str.split(" /");
-            assert !temp[0].equals("") : "string must not be empty";
-            assert !temp[1].equals("") : "string must not be empty";
-            assert !temp[2].equals("") : "string must not be empty";
+            if (temp.length < 3 ||
+                    temp[0].isEmpty() ||
+                    temp[1].isEmpty() ||
+                    temp[2].isEmpty()) {
+                return UI.handle(new LonelyWantsinfoException("dowithin"));
+            }
             String msg = lst.add(new DoWithinPeriod(temp[0],
                     temp[1].replaceFirst("between ", ""),
                     temp[2].replaceFirst("and ", "")));
@@ -91,7 +130,7 @@ public class Parser {
         } catch (DateTimeParseException | PatternSyntaxException e) {
             printer = UI.handle(new LonelyDontunderstandException());
         } catch (ArrayIndexOutOfBoundsException e) {
-            printer = UI.handle(new LonelyWantsinfoException("event"));
+            printer = UI.handle(new LonelyWantsinfoException("dowithin"));
         }
         return printer;
     }
@@ -99,10 +138,11 @@ public class Parser {
     private static String logicDeadline(String str, TaskList lst) {
         String printer;
         try {
-            str = str.replaceFirst("deadline ", "");
+            str = str.replaceFirst(CMD_DEADLINE, "");
             String[] temp = str.split(" /by ");
-            assert !temp[0].equals("") : "string must not be empty";
-            assert !temp[1].equals("") : "string must not be empty";
+            if (temp.length < 2 || temp[0].isEmpty() || temp[1].isEmpty()) {
+                return UI.handle(new LonelyWantsinfoException("deadline"));
+            }
             String msg = lst.add(new Deadline(temp[0], temp[1]));
             printer = msg;
         } catch (DateTimeParseException | PatternSyntaxException e) {
@@ -116,10 +156,9 @@ public class Parser {
     private static String logicTodo(String str, TaskList lst) {
         String printer;
         try {
-            String temp = str.replaceFirst("todo ", "");
-            assert str.length() < 5 : "string must have a subject";
-            if (temp.equals("") || str.length() < 5) {
-                printer = UI.handle(new LonelyWantsinfoException("todo"));
+            String temp = str.replaceFirst(CMD_TODO, "");
+            if (temp.trim().isEmpty()) {
+                return UI.handle(new LonelyWantsinfoException("todo"));
             }
             String msg = lst.add(new ToDo(temp));
             printer = msg;
@@ -130,19 +169,4 @@ public class Parser {
         }
         return printer;
     }
-
-    private static String logicDelete(String str, TaskList lst) {
-        int index = Integer.parseInt(str.replaceAll("\\D+", ""));
-        assert index != 0 : "index must not be 0";
-        return lst.remove(index);
-    }
-
-    private static String logicFind(String str, TaskList lst) {
-        str = str.replaceFirst("find ", "");
-        assert  !str.equals("") : "string must not be empty";
-        return UI.displayList(lst.find(str));
-    }
-
-
-
 }

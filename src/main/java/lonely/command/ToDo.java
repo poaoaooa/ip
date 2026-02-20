@@ -9,11 +9,9 @@ public class ToDo extends Task {
     }
 
     /**
-     * Returns custom string notation of Object.
-     * Overrides Task toString method, which has details of
-     * task description and whether it is unmarked or not
+     * Returns a formatted string representation of this task.
      *
-     * @return Custom string representation of object
+     * @return formatted task string
      */
     @Override
     public String toString() {
@@ -21,7 +19,7 @@ public class ToDo extends Task {
     }
 
     /**
-     * Returns custom string notation of Object to be
+     * Returns custom string notation of object to be
      * saved in txt file
      *
      * @return Custom string representation of object

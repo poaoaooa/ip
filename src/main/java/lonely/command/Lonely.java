@@ -7,35 +7,9 @@ import lonely.ui.UI;
 public class Lonely {
     private static Storage store;
     private static TaskList lst;
+
     /**
-     * Main method, loops through scanner inputs and passes
-     * it to its logic, till it reached a "bye".
-     *
-     */
-    public static void main(String[] args) {
-        /*Scanner scanner = new Scanner(System.in);
-        TaskList lst = new TaskList();
-        Storage store = new Storage(lst);
-        store.recover();
-        UI.greet();
-        String str;
-        do {
-            str = scanner.nextLine();
-            if (str.equals("bye")) {
-                break;
-            }
-            Parser.logic(str, lst, true);
-        } while (true);
-        store.save();
-        UI.goodbye();
-
-         */
-
-
-    }
-    /**
-     * Prepare a static Tasklist and
-     * recover the tasks stored
+     * Initializes the task list and loads stored tasks.
      */
     public static void prep() {
         Lonely.lst = new TaskList();
@@ -43,6 +17,12 @@ public class Lonely {
         store.recover();
     }
 
+    /**
+     * Processes user input and returns the corresponding response.
+     *
+     * @param input user input string
+     * @return response message
+     */
     public String getResponse(String input) {
         if (input.equals("list")) {
             return UI.displayList(Lonely.lst);

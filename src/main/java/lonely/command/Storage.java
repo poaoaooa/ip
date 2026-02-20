@@ -17,8 +17,7 @@ public class Storage {
     }
 
     /**
-     * Saves TaskList object in the form of a txt file to be used later
-     *
+     * Saves all tasks to a file.
      */
     protected void save() {
         List<String> lines = this.lst.getList().stream().map(Task::saveString).toList();
@@ -31,11 +30,9 @@ public class Storage {
 
     }
 
-    /*
-    * Retrives TaskList object from txt file, if it exsits,
-    * i.e if there was a previous conversatino with Lonely
-    *
-    */
+    /**
+     * Loads tasks from the storage file if it exists.
+     */
     protected void recover() {
         File file = new File("Lonely.txt");
         try (Scanner scanner = new Scanner(file)) {

@@ -1,5 +1,6 @@
 package lonely.command;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -17,12 +18,12 @@ public class TaskList {
 
     /**
      * Unmarks a Task from TaskList, based on its index
-     * index param is indexed from 1
      *
-     * @param index index of elements
+     * @param index 1-based index of the task
      * @return String denoting which element has been unmarked
      */
     protected String unmark(int index) {
+        assert index >= 1 : "Index should be positive after parsing";
         index = index - 1;
         this.lst.get(index).unmark();
         String str = this.lst.get(index).toString();
@@ -32,12 +33,12 @@ public class TaskList {
 
     /**
      * Marks a Task from TaskList, based on its index
-     * index param is indexed from 1
      *
-     * @param index index of elements
+     * @param index 1-based index of the task
      * @return String denoting which element has been marked
      */
     protected String mark(int index) {
+        assert index >= 1 : "Index should be positive after parsing";
         index = index - 1;
         this.lst.get(index).mark();
         String str = this.lst.get(index).toString();
@@ -61,23 +62,25 @@ public class TaskList {
 
     /**
      * Deletes a Task from TaskList, based on its index
-     * index param is indexed from 1
      *
-     * @param index index of elements
+     * @param index 1-based index of the task
      * @return String denoting which element has been removed
      */
     protected String remove(int index) {
-        Task task = this.lst.get(index - 1);
-        this.lst.remove(index - 1);
+        assert index >= 1 : "Index should be positive after parsing";
+        if (index <= 0 || index > lst.size()) {
+            return "Invalid task number.";
+        }
+        Task removed = this.lst.remove(index - 1);
         return "Noted. I've removed this task:\n"
-                + "  " + task.toString() + "\n"
+                + "  " + removed.toString() + "\n"
                 + "Now you have " + (this.lst.size()) + " tasks in the list.";
     }
 
     /**
-     * Prints out all elements stored in the Arraylist of Tasks
-     * also numbers the elements
+     * Returns a formatted list of all tasks.
      *
+     * @return string containing all tasks
      */
     public String display() {
         StringBuilder lstString = new StringBuilder("Here are the tasks in your list:\n");
@@ -87,10 +90,21 @@ public class TaskList {
         return lstString.toString();
     }
 
+    /**
+     * Returns a list of tasks that contain all given keywords.
+     *
+     * @param str keywords to search for
+     * @return filtered task list
+     */
     protected TaskList find(String str) {
+        String[] keywords = str.toLowerCase().split(" ");
+        // used chatgpt to suggest improve here so find, works
+        // with finding 2 words
         return new TaskList(this.lst.stream()
-                .filter(task -> task.toString()
-                                .toLowerCase().contains(str.toLowerCase()))
+                .filter(task -> {
+                    String text = task.toString().toLowerCase();
+                    return Arrays.stream(keywords).allMatch(text::contains);
+                })
                 .collect(Collectors.toCollection(ArrayList::new)));
     }
 

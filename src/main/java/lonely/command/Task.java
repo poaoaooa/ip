@@ -1,7 +1,7 @@
 package lonely.command;
 
 /**
- * Abstract class of Task
+ * Represents a generic task with a description and completion status.
  */
 public abstract class Task {
     protected String description;
@@ -30,8 +30,9 @@ public abstract class Task {
     }
 
     /**
-     * Abstract method, ensures every Task can be saved in text files
+     * Returns a string representation of the task for storage.
      *
+     * @return storage-formatted string
      */
     protected abstract String saveString();
 }
