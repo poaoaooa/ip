@@ -32,6 +32,8 @@ public class Parser {
             printer = logicDeadline(str, lst);
         } else if (str.startsWith("event")) {
             printer = logicEvent(str, lst);
+        } else if (str.startsWith("dowithin")) {
+            printer = logicDowithin(str, lst);
         } else if (str.startsWith("mark")) {
             printer = logicMark(str, lst);
         } else if (str.startsWith("unmark")) {
@@ -74,6 +76,26 @@ public class Parser {
         return printer;
     }
 
+    private static String logicDowithin(String str, TaskList lst) {
+        String printer;
+        try {
+            str = str.replaceFirst("dowithin ", "");
+            String[] temp = str.split(" /");
+            assert !temp[0].equals("") : "string must not be empty";
+            assert !temp[1].equals("") : "string must not be empty";
+            assert !temp[2].equals("") : "string must not be empty";
+            String msg = lst.add(new DoWithinPeriod(temp[0],
+                    temp[1].replaceFirst("between ", ""),
+                    temp[2].replaceFirst("and ", "")));
+            printer = msg;
+        } catch (DateTimeParseException | PatternSyntaxException e) {
+            printer = UI.handle(new LonelyDontunderstandException());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            printer = UI.handle(new LonelyWantsinfoException("event"));
+        }
+        return printer;
+    }
+
     private static String logicDeadline(String str, TaskList lst) {
         String printer;
         try {
@@ -95,7 +117,7 @@ public class Parser {
         String printer;
         try {
             String temp = str.replaceFirst("todo ", "");
-            assert str.length() < 5 : "string must have a subject"
+            assert str.length() < 5 : "string must have a subject";
             if (temp.equals("") || str.length() < 5) {
                 printer = UI.handle(new LonelyWantsinfoException("todo"));
             }
