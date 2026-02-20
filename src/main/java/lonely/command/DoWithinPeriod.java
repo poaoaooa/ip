@@ -3,15 +3,15 @@ package lonely.command;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Event extends Task {
+public class DoWithinPeriod extends Task {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
     private static final DateTimeFormatter REFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    protected LocalDate from;
-    protected LocalDate to;
-    Event(String description, String from, String to) {
+    protected LocalDate between;
+    protected LocalDate and;
+    DoWithinPeriod(String description, String between, String and) {
         super(description);
-        this.from = LocalDate.parse(from);
-        this.to = LocalDate.parse(to);
+        this.between = LocalDate.parse(between);
+        this.and = LocalDate.parse(and);
     }
 
     /**
@@ -23,8 +23,8 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: "
-                + this.from.format(FORMATTER) + " to: " + this.to.format(FORMATTER) + ")";
+        return "[W]" + super.toString() + " (between: "
+                + this.between.format(FORMATTER) + " and: " + this.and.format(FORMATTER) + ")";
     }
 
     /**
@@ -39,9 +39,9 @@ public class Event extends Task {
         if (super.isDone) {
             doner = "[X]";
         }
-        return doner + "event " + super.description
-                + " /from " + this.from.format(FORMATTER) + " /to "
-                + this.to.format(REFORMATTER);
+        return doner + "dowithin " + super.description
+                + " /between " + this.between.format(FORMATTER) + " /and "
+                + this.and.format(REFORMATTER);
     }
 
 }
